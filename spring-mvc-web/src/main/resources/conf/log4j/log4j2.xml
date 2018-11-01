@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- status=debug 可以查看log4j的装配过程 -->
+<Configuration
+	status="WARN"
+	monitorInterval="1800">
+
+	<properties>
+		<property name="log.service.name">spring-mvc-web</property>
+		<property name="log.service.path">/data/logs/</property>
+		<property name="log.service.level">info</property>
+	</properties>
+
+	<Appenders>
+		<Console
+			name="Console"
+			target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5p] [%t] %c{6} - %m%n%ex" />
+		</Console>
+
+		<RollingRandomAccessFile
+			name="RollingRandomAccessFileLog"
+			fileName="${log.service.path}/${log.service.name}/${log.service.name}.log"
+			filePattern="${log.service.path}/${log.service.name}/${log.service.name}.log.%d{yyyy-MM-dd}.gz">
+			<PatternLayout
+				pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5p] [%t] %c{6} - %m%n%ex" />
+
+			<!-- 备份策略:满足其中一个就可以启动备份 -->
+			<Policies>
+				<!-- interval 多久执行一次备份，单位为 RollingRandomAccessFile的属性filePattern中%d{yyyy-MM-dd}的最小时间单位，此处是天 -->
+				<TimeBasedTriggeringPolicy
+					interval="1"
+					modulate="true" />
+				<DefaultRolloverStrategy max="20" />
+			</Policies>
+		</RollingRandomAccessFile>
+
+		<!-- 异步appder，使用的是ArrayBlocingQueue -->
+		<Async name="Async">
+			<AppenderRef ref="Console" />
+		</Async>
+	</Appenders>
+
+	<Loggers>
+		<!-- 3rdparty Loggers -->
+		<logger
+			name="org.springframework.core"
+			level="${log.service.level}" />
+		<logger
+			name="org.springframework.beans"
+			level="${log.service.level}" />
+		<logger
+			name="org.springframework.context"
+			level="${log.service.level}" />
+		<logger
+			name="org.springframework.web"
+			level="${log.service.level}" />
+
+		<!--zookeeper配置打印日志 -->
+		<logger
+			name="org.apache.zookeeper"
+			level="${log.service.level}" />
+
+		<!-- druid数据源配置打印日志 -->
+		<logger
+			name="druid.sql"
+			level="${log.service.level}" />
+		<logger
+			name="druid.sql.DataSource"
+			level="${log.service.level}" />
+		<logger
+			name="druid.sql.Connection"
+			level="${log.service.level}" />
+		<logger
+			name="druid.sql.Statement"
+			level="${log.service.level}" />
+		<logger
+			name="druid.sql.ResultSet"
+			level="${log.service.level}" />
+
+		<!-- includeLocation属性是指layout中的 %C or $class, %F or %file, %l or %location, 
+			%L or %line, %M or %method，异步logger默认为false，如果设置为true，会影响logger的性能 -->
+		<root
+			level="${log.service.level}"
+			includeLocation="false">
+			<appender-ref ref="Console" />
+			<appender-ref ref="RollingRandomAccessFileLog" />
+			<appender-ref ref="RollingFileError" />
+		</root>
+	</Loggers>
+</Configuration>

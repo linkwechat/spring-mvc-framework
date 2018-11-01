@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.linkwechat</groupId>
+		<artifactId>spring-mvc-framework</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>spring-mvc-web</artifactId>
+	<packaging>war</packaging>
+	<name>spring-mvc-web</name>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>com.linkwechat</groupId>
+			<artifactId>spring-mvc-service</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>${project.artifactId}-${build.profile}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<configuration>
+					<!-- 跳过web应用的maven发布 -->
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- jetty服务容器，启动命令：mvn jetty:run；停止命令：mvn jetty:stop -->
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.4.6.v20170531</version>
+				<configuration>
+					<!-- 服务端口 -->
+					<connectors>
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>18080</port>
+						</connector>
+					</connectors>
+					<!-- 扫描项目变更的时间间隔 -->
+					<scanIntervalSeconds>1000</scanIntervalSeconds>
+					<!-- 配置web应用的发布路径 -->
+					<webAppConfig>
+						<contextPath>/</contextPath>
+					</webAppConfig>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

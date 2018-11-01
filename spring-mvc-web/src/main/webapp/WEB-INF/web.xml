@@ -1,0 +1,143 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<!-- 显示名称 -->
+	<display-name>spring-mvc-web</display-name>
+
+	<!-- log4j2配置上下文名称 -->
+	<context-param>
+		<param-name>log4jContextName</param-name>
+		<param-value>spring-mvc-web</param-value>
+	</context-param>
+
+	<!-- log4j2配置读取路径，必须为/WEB-INF/，而不能是Class-Path -->
+	<context-param>
+		<param-name>log4jConfiguration</param-name>
+		<param-value>/WEB-INF/classes/conf/log4j/log4j2.xml</param-value>
+	</context-param>
+
+	<!-- log4j2配置刷新间隔 -->
+	<context-param>
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>60000</param-value>
+	</context-param>
+
+	<!-- spring配置路径 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:/conf/spring/applicationContext-*.xml
+		</param-value>
+	</context-param>
+
+	<!-- 报文数据过滤器，编码为UTF-8 -->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<!-- druid监控数据采集过滤器 -->
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>profileEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>sessionStatEnable</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</filter>
+
+	<!-- 报文数据过滤器映射 -->
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- druid监控数据采集过滤器映射 -->
+	<filter-mapping>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- log4j2监听器 -->
+	<listener>
+		<listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
+	</listener>
+
+	<!-- spring监听器，在Web容器启动时激活Spring -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- spring的servlet调度器 -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value></param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- druid的servlet调度器 -->
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<init-param>
+			<!-- 允许清空统计数据 -->
+			<param-name>resetEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<!-- 用户名 -->
+			<param-name>loginUsername</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+		<init-param>
+			<!-- 密码 -->
+			<param-name>loginPassword</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+	</servlet>
+
+	<!-- spring的servlet调度器映射 -->
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<!-- 这里可以用 / 但不能用 /* ，拦截了所有请求会导致jsp静态资源无法访问。访问其他静态资源时要在spring的servlet.xml中配置mvc:resources -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- druid的servlet调度器映射 -->
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- session配置 -->
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+	<!-- 主页配置 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>
