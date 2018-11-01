@@ -1,8 +1,8 @@
 package com.linkwechat.spring.mvc.framework.vo;
 
+import com.linkwechat.commons.util.JsonUtils;
 import com.linkwechat.spring.mvc.framework.exception.BizException;
 import com.linkwechat.spring.mvc.framework.exception.ReturnType;
-import com.ofo.common.utils.JsonUtils;
 
 /**
  * 业务响应数据

@@ -1,23 +1,24 @@
 <?xml version="1.0"?>
 <project
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <modelVersion>4.0.0</modelVersion>
-    <dependencies>
-        <dependency>
-            <groupId>com.ofo.common</groupId>
-            <artifactId>ofo-common-utils</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-    <parent>
-        <groupId>com.linkwechat</groupId>
-        <artifactId>spring-mvc-framework</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-    <artifactId>spring-mvc-common</artifactId>
-    <name>spring-mvc-common</name>
-    <url>http://maven.apache.org</url>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<dependencies>
+		<!-- linkwechat通用工具类 -->
+		<dependency>
+			<groupId>com.linkwechat.commons</groupId>
+			<artifactId>linkwechat-commons-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+	<parent>
+		<groupId>com.linkwechat</groupId>
+		<artifactId>spring-mvc-framework</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>spring-mvc-common</artifactId>
+	<name>spring-mvc-common</name>
+	<url>http://maven.apache.org</url>
 
 </project>

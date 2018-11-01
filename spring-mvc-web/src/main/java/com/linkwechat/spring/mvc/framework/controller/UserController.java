@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.linkwechat.commons.util.JsonUtils;
 import com.linkwechat.spring.mvc.framework.controller.aop.WebOpt;
 import com.linkwechat.spring.mvc.framework.exception.ReturnType;
 import com.linkwechat.spring.mvc.framework.model.User;
 import com.linkwechat.spring.mvc.framework.service.UserService;
 import com.linkwechat.spring.mvc.framework.vo.BizResponse;
-
-import com.ofo.common.utils.JsonUtils;
 
 /**
  * 用户接口服务
